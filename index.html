@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小宇导航</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        /* 科技感动态背景：星云+流光+网格 */
+        body {
+            min-height: 100vh;
+            background: #050816;
+            background-image: 
+                linear-gradient(135deg, #0f1630 0%, #1a2a6c 40%, #050816 100%),
+                linear-gradient(25deg, rgba(0, 255, 255, 0.15) 0%, rgba(150, 0, 255, 0.15) 100%),
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 400% 400%, 40px 40px, 40px 40px;
+            animation: 
+                glowFlow 18s ease infinite,
+                gridFloat 25s linear infinite;
+            overflow-x: hidden;
+            padding: 3rem 0;
+        }
+        /* 背景动画 */
+        @keyframes glowFlow {
+            0% { background-position: 0% 50%, 0% 50%, 0 0, 0 0; }
+            50% { background-position: 100% 50%, 100% 50%, 20px 20px, 20px 20px; }
+            100% { background-position: 0% 50%, 0% 50%, 0 0, 0 0; }
+        }
+        @keyframes gridFloat {
+            0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+            100% { background-position: 0 0, 0 0, 40px 40px, 40px 40px; }
+        }
+        /* 顶部标题 */
+        .nav-top {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .nav-top h1 {
+            color: #00f7ff;
+            font-size: 3rem;
+            text-shadow: 0 0 15px #00f7ff, 0 0 30px rgba(0, 247, 255, 0.6);
+            letter-spacing: 4px;
+            position: relative;
+        }
+        .nav-top h1::after {
+            content: '';
+            display: block;
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00f7ff, transparent);
+            margin: 1rem auto 0;
+        }
+        /* 中间导航区 */
+        .nav-main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        /* 带音效按钮样式 */
+        .nav-link {
+            display: block;
+            width: 100%;
+            height: 90px;
+            margin-bottom: 2rem;
+            background: rgba(10, 14, 39, 0.7);
+            border: 1px solid #00f7ff;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.4rem;
+            text-align: center;
+            line-height: 90px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 12px rgba(0, 247, 255, 0.2), inset 0 0 10px rgba(0, 247, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-link:hover {
+            background: rgba(0, 247, 255, 0.08);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px #00f7ff, 0 0 30px rgba(0, 247, 255, 0.4), inset 0 0 15px rgba(0, 247, 255, 0.2);
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 247, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .nav-link:active::before {
+            width: 300px;
+            height: 300px;
+            opacity: 0;
+        }
+        /* 移动端适配 */
+        @media (max-width: 576px) {
+            .nav-top h1 { font-size: 2.2rem; }
+            .nav-link {
+                height: 75px;
+                line-height: 75px;
+                font-size: 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部标题区 -->
+    <div class="nav-top">
+        <h1>小宇导航</h1>
+    </div>
+
+    <!-- 中间跳转区 -->
+    <div class="nav-main">
+        <a href="https://example.com/card" class="nav-link" onclick="playClickSound()">直登号卡网</a>
+        <a href="https://example.com/file" class="nav-link" onclick="playClickSound()">小宇文件</a>
+        <a href="https://example.com/download" class="nav-link" onclick="playClickSound()">直装下载</a>
+        <a href="https://example.com/about" class="nav-link" onclick="playClickSound()">关于我们</a>
+    </div>
+
+    <!-- 音频元素（默认隐藏） -->
+    <audio id="clickSound" preload="auto">
+        <!-- 兼容不同浏览器的音频格式 -->
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.ogg" type="audio/ogg">
+        您的浏览器不支持音频播放
+    </audio>
+
+    <script>
+        // 标题渐入效果
+        window.onload = function() {
+            const title = document.querySelector('.nav-top h1');
+            title.style.opacity = '0';
+            title.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                title.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                title.style.opacity = '1';
+                title.style.transform = 'translateY(0)';
+            }, 300);
+        };
+
+        // 播放点击音效函数
+        function playClickSound() {
+            const sound = document.getElementById('clickSound');
+            sound.currentTime = 0; // 重置播放进度，支持连续点击
+            sound.volume = 0.5; // 音量调整（0-1）
+            sound.play().catch(error => {
+                // 浏览器可能阻止自动播放，此处静默处理
+                console.log('音频播放被阻止，可尝试点击页面后再操作');
+            });
+        }
+    </script>
+</body>
+</html>
